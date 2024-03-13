@@ -38,16 +38,16 @@ var Archive=dbContext.db.Models[0];
     Archive=dbContext.db.Models[0]; 
 
     //UPLOADING FILE TO AWS S3
-    AWS.config.update({region: 'us-west-2'});
-    s3 = new AWS.S3();
+    // AWS.config.update({region: 'us-west-2'});
+    // s3 = new AWS.S3();
 
-    s3.listBuckets(function (err, data) {
-        if (err) {
-          console.log("Error", err);
-        } else {
-          console.log("Success", data.Buckets);
-        }
-      });
+    // s3.listBuckets(function (err, data) {
+    //     if (err) {
+    //       console.log("Error", err);
+    //     } else {
+    //       console.log("Success", data.Buckets);
+    //     }
+    //   });
 
 //UPLOAD
 
