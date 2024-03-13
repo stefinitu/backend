@@ -40,14 +40,14 @@ var Archive=dbContext.db.Models[0];
     //UPLOADING FILE TO AWS S3
     AWS.config.update({region: 'ap-northeast-2'});
     s3 = new AWS.S3().getObject({Bucket:"ruverse"});
-
-    s3.listBuckets(function (err, data) {
-        if (err) {
-          console.log("Error", err);
-        } else {
-          console.log("Success", data.Buckets);
-        }
-      });
+    console.log(s3)
+    // s3.listObjects(function (err, data) {
+    //     if (err) {
+    //       console.log("Error", err);
+    //     } else {
+    //       console.log("Success", data.Buckets);
+    //     }
+    //   });
 
 //UPLOAD
 
