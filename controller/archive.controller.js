@@ -42,13 +42,6 @@ var Archive=dbContext.db.Models[0];
     AWS.config.update({region: 'ap-northeast-2'});
     s3 = new AWS.S3({apiVersion:"latest", accessKeyId:"AKIAXQKSTMV4RGXTZ6MM", accessSecretKey:"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"});
 
-    s3.listObjects({Bucket:'ruverse'}, function (err, data) {
-        if (err) {
-          console.log("Error", err);
-        } else {
-          console.log("Success", data);
-        }
-      });
 
 //UPLOAD
 
@@ -56,17 +49,27 @@ var Archive=dbContext.db.Models[0];
 
  var file = "test.txt";
 
-// Configure the file stream and obtain the upload parameters
-var fileStream = fs.createReadStream(file);
-fileStream.on("error", function (err) {
-  console.log("File Error", err);
-});
-uploadParams.Body = fileStream;
-var path = require("path");
-uploadParams.Key = path.basename(file);
+ const uploadFile=(file,bucketName) => {
+    const fileContent = fs.readFileSync(file);
+    const params = {
+        Bucket: bucketName,
+        Key: file,
+        Body: "test",
+    }
+
+
+// Configure the file stream and obtain the upload parameters LATER
+// var fileStream = fs.createReadStream(file);
+// fileStream.on("error", function (err) {
+//   console.log("File Error", err);
+// });
+// uploadParams.Body = fileStream;
+
+// var path = require("path");
+// uploadParams.Key = path.basename(file);
 
 // call S3 to retrieve upload file to specified bucket
-s3.upload(uploadParams, function (err, data) {
+s3.upload(params, function (err, data) {
   if (err) {
     console.log("Error", err);
   }
@@ -74,6 +77,10 @@ s3.upload(uploadParams, function (err, data) {
     console.log("Upload Success", data.Location);
   }
 });
+ }
+
+ uploadFile('test.txt','ruverse')
+
 
 //     //////////////////////////////////////////////////////////////////////////
 
