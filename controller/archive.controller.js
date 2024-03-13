@@ -38,8 +38,8 @@ var Archive=dbContext.db.Models[0];
     Archive=dbContext.db.Models[0]; 
     var AWS=require("aws-sdk");
     //UPLOADING FILE TO AWS S3
-    AWS.config.update({region: 'ap-northeast-2', accessKeyId:"*", accessSecretKey:"*"});
-    s3 = new AWS.S3({apiVersion:"2006-03-01"});
+    AWS.config.update({region: 'ap-northeast-2', apiVersion:"latest", accessKeyId:"*", accessSecretKey:"*"});
+    s3 = new AWS.S3();
 
     s3.listObjects({Bucket:"ruverse"}, function (err, data) {
         if (err) {
