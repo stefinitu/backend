@@ -96,9 +96,9 @@ s3.upload(params, function (err, data) {
 
        Archive=dbContext.db.Models[0]; 
        var AWS=require("aws-sdk");
-       //UPLOADING FILE TO AWS S3
+//S3
        AWS.config.update({region: 'ap-northeast-2'});
-       s3 = new AWS.S3({apiVersion:"latest", accessKeyId:"AKIAXQKSTMV4RGXTZ6MM", accessSecretKey:"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"});
+       s3 = new AWS.S3({apiVersion:"latest", accessKeyId:process.env.AWS_ACC_KEY, accessSecretKey:process.env.AWS_SECRET_KEY});
    
        s3.listObjects({Bucket:'ruverse'}, function (err, data) {
            if (err) {

@@ -8,7 +8,7 @@ exports.aws=aws;
 
 const express=require('express');
 const session=require('express-session');
-
+require("dotenv").config();
 const db=require('./models/index');
 const archiveRouter = require("./routes/archive.routes");
 const archiveController=require("./controller/archive.controller");
