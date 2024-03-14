@@ -36,17 +36,17 @@ db.db.sequelize
 
 app.use("/", archiveRouter);
 
-// http.createServer(app).listen(8080,function(req,res){
-//     console.log("Server started on port 8080")
-// });
+http.createServer(app).listen(8080,function(req,res){
+    console.log("Server started on port 8080")
+});
 
 // const options={
 //     key:fs.readFileSync("./private/key"),
 //     cert:fs.readFileSync("./certificate.crt"),
 //     ca:fs.readFileSync("./ca_bundle.crt")
 // }
-https.createServer(app).listen(443,function(req,res){
-    console.log("Server started on port 443")
-});
+// https.createServer(options,app).listen(443,function(req,res){
+//     console.log("Server started on port 443")
+// });
 //+S3 connector
 
