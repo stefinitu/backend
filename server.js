@@ -48,5 +48,4 @@ http.createServer(app).listen(8080,function(req,res){
 // https.createServer(options,app).listen(443,function(req,res){
 //     console.log("Server started on port 443")
 // });
-//+S3 connector
 
