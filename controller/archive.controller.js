@@ -66,8 +66,16 @@ s3.upload(params, function (err, data) {
 
 //     //////////////////////////////////////////////////////////////////////////
 
+let genId = '';
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const charactersLength = characters.length;
+let counter = 0;
+while (counter < 20) {
+  genId += characters.charAt(Math.floor(Math.random() * charactersLength));
+  counter += 1;
+}
 
-    Archive.create({id:req.body.id, room_no:req.body.room_no, name:req.body.name, domain:req.body.domain, object_id:req.body.object_id})
+    Archive.create({id:genId, room_no:req.body.room_no, name:req.body.name, domain:req.body.domain, object_id:req.body.object_id})
     .then((data) =>{
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
