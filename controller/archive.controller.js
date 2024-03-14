@@ -1,25 +1,9 @@
 const dbContext=require("../models");
 const fromServer = require("./../server");
+const crypto=require("crypto");
 var fs = require("fs");
 
 var Archive=dbContext.db.Models[0];
-//  exports.connect= (req,res) => 
-//  {
-//     dbContext.db.sequelize
-//     .authenticate()
-//     .then(()=>{
-//         console.log("Authenticated");
-//         dbContext.db.sequelize.sync();
-//     })
-//     .catch((err)=> {
-//         fromServer.aws=function(){
-//             return true;
-//         }
-//     })
-
-//     Archive=dbContext.db.Models[0]; 
-
-//  }
 
  exports.create= (req,res) => 
  {
@@ -44,8 +28,6 @@ var Archive=dbContext.db.Models[0];
 
 
 //UPLOAD
-
-// // call S3 to retrieve upload file to specified bucket
 
  var file = "test.txt";
 
@@ -90,28 +72,6 @@ s3.upload(params, function (err, data) {
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
     }
-
-    exports.createOne= (req,res) => 
-    {
-       dbContext.db.sequelize
-       .authenticate()
-       .then(()=>{
-           console.log("Authenticated");
-           dbContext.db.sequelize.sync();
-       })
-       .catch((err)=> {
-           fromServer.aws=function(){
-               return true;
-           }
-       })
-   
-       Archive=dbContext.db.Models[0]; 
-       Archive.create({id:"123", room_no:123, name:"room name", domain:"keyboard", object_id:"234file"})
-       .then((data) =>{
-        console.log(data)
-           res.status(200).send(data)})
-           .catch((err)=>res.status(400).send(err));
-       }
     
     exports.findAll= (req,res) => 
     {
@@ -160,6 +120,48 @@ s3.upload(params, function (err, data) {
         .catch((err)=>{
             fromServer.aws=function(){
                 return true
+            }
+        })
+        Archive=dbContext.db.Models[0];
+        Archive.destroy({
+            where: {id:req.params.id}
+        })
+        res.status(204).json({
+            msg:"Archive deleted"
+        })
+        .catch((err)=>{
+            res.status(400).send({
+                error:"Error while deleting"
+            })
+        })
+       }
+
+       exports.update=(req,res) =>{
+        dbContext.db.sequelize
+        .authenticate()
+        .then(()=>{
+            console.log("Authenticated");
+            dbContext.db.sequelize.sync();
+        })
+        .catch((err)=>{
+            fromServer.aws=function(){
+                return true
+            }
+        })
+        Archive=dbContext.db.Models[0];
+        Archive.update(req.body,{
+            where:{id:req.body.id}
+        })
+        .then((num)=>{
+            if(num==1){
+                res.status(200).send({
+                    message:"Updated"
+                })
+            }
+            else{
+                res.status(400).send({
+                    message:"Cannot update"
+                })
             }
         })
        }
