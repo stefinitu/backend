@@ -74,6 +74,55 @@ s3.upload(params, function (err, data) {
 
  uploadFile("test"+genId+".txt",'ruverse')
 
+ ////VIDEO
+
+ let storage = multer.diskStorage({
+    destination:(req, file, cb) =>{
+        cb(null, path.resolve('./uploads'))
+    },
+    filename:(req,file,cb)=>{
+        cb(null, "test"+genId+".mp4")
+    },
+    fileFilter:(req,file,cb) =>{
+        const ext =path.extname("test"+genId+".mp4");
+        if(ext!==".mp4"){
+            return cb(res.status(400).end("only mp4!"), false)
+        }
+        cb(null,true)
+    }
+ })
+
+ const uploadV=multer({storage:storage}).single("file");
+ uploadV(req,res,(err)=>{
+    if(err){
+        return res.json({success:false, err});
+    }
+    return res.json({
+        success:true
+    })
+ })
+
+ const uploadFile2=(file,bucketName) => {
+    const fileContent = fs.readFileSync("./uploads/test"+genId+".mp4");
+    const params = {
+        Bucket: bucketName,
+        Key: file,
+        Body: fileContent,
+    }
+
+// call S3 to retrieve upload file to specified bucket
+s3.upload(params, function (err, data) {
+  if (err) {
+    console.log("Error", err);
+  }
+  if (data) {
+    console.log("Upload Success", data.Location);
+  }
+});
+ }
+
+ uploadFile2("test"+genId+".mp4",'ruverse')
+
 
 //     //////////////////////////////////////////////////////////////////////////
 
