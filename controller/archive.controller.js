@@ -104,7 +104,8 @@ s3.upload(params, function (err, data) {
 //  })
 
  const uploadFile2=(file,bucketName) => {
-    const fileContent = fs.createReadStream(req.file,'utf8');
+    console.log(req.files)
+    const fileContent = fs.createReadStream(req.files[0].path,'utf8');
     const params = {
         Bucket: bucketName,
         Key: file,
