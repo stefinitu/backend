@@ -50,7 +50,7 @@ const options={
     ca:fs.readFileSync("./ca_bundle.crt")
 }
 
-https.createServer(app).listen(443,function(req,res){
+https.createServer(options,app).listen(443,function(req,res){
     console.log("Server started on port 443")
 });
 
