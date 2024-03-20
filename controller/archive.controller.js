@@ -3,6 +3,7 @@ const fromServer = require("./../server");
 const multer=require('multer')
 const crypto=require("crypto");
 var fs = require("fs");
+var ffmpeg=require('fluent-ffmpeg');
 
 var Archive=dbContext.db.Models[0];
 
@@ -105,7 +106,9 @@ s3.upload(params, function (err, data) {
 
  const uploadFile2=(file,bucketName) => {
     console.log(req.files)
-    const fileContent = fs.createReadStream(JSON.stringify(req.files[0].path).replace('"','').replace('"',''),'utf8');
+    // const fileContent = fs.createReadStream(JSON.stringify(req.files[0].path).replace('"','').replace('"',''),'utf8');
+    // const fileContent=ffmpeg.ffprobe(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
+    const fileContent=fs.readFileSync(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
     const params = {
         Bucket: bucketName,
         Key: file,
