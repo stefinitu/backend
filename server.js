@@ -45,7 +45,7 @@ db.db.sequelize
 app.use("/", archiveRouter);
 
 const options={
-    key:fs.readFileSync("./domain.key"),
+    key:fs.readFileSync("./rootCA.key"),
     cert:fs.readFileSync("./domain.crt"),
     ca:fs.readFileSync("./rootCA.crt")
 }
