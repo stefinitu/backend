@@ -7,6 +7,7 @@ aws=function(){
 exports.aws=aws;
 
 const express=require('express');
+const cors=require('cors');
 const session=require('express-session');
 require("dotenv").config();
 const db=require('./models/index');
@@ -23,9 +24,17 @@ const app=express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}))
 
-app.use(session({
-    secret:"rubis"
-}));
+var corsOpt={
+    origin:true,
+    methods:['GET','PUT','POST','DELETE','FETCH','OPTIONS'],
+    preflightContinue:true,
+    allowedHeaders:['Content-Type','Authorization','Content-length','X-Requested-With','Accept'],
+    credentials:true
+}
+app.options('*',cors(corsOpt));
+app.use(cors(corsOpt));
+
+app.use(session());
 
 db.db.sequelize
 .authenticate()
