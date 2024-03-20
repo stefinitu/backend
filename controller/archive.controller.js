@@ -104,7 +104,7 @@ s3.upload(params, function (err, data) {
  })
 
  const uploadFile2=(file,bucketName) => {
-    const fileContent = fs.readFileSync("./uploads/test"+genId+".mp4");
+    const fileContent = fs.readFileSync("../uploads/test"+genId+".mp4");
     const params = {
         Bucket: bucketName,
         Key: file,
