@@ -188,7 +188,7 @@ while (counter < 20) {
         // })
         // Archive=dbContext.db.Models[0];
 
-        console.log(req.data)
+        console.log(req.body)
         res.status(200).send({
             message:"Checked the request"
         })
