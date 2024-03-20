@@ -8,7 +8,7 @@ module.exports=(sequelize,Sequelize) => {
                 onDelete:'CASCADE',
             },
             room_no:{
-                type:Sequelize.INTEGER,
+                type:Sequelize.STRING,
                 allowNull:false,
             },
             name:{
