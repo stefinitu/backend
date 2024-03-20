@@ -44,7 +44,11 @@ db.db.sequelize
 
 app.use("/", archiveRouter);
 
-const options={}
+const options={
+    key:fs.readFileSync("./nodejsssl/private.key"),
+    cert:fs.readFileSync("./nodejsssl/certificate.crt"),
+    ca:fs.readFileSync("./nodejsssl/ca_bundle.crt"),
+}
 https.createServer(options,app).listen(443,function(req,res){
     console.log("Server started on port 443")
 });
