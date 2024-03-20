@@ -34,7 +34,6 @@ var corsOpt={
 app.options('*',cors(corsOpt));
 app.use(cors(corsOpt));
 
-app.use(session());
 
 db.db.sequelize
 .authenticate()
