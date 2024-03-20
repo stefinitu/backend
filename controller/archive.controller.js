@@ -173,3 +173,21 @@ while (counter < 20) {
             }
         })
        }
+
+       exports.updateFile=(req,res) => {
+        // dbContext.db.sequelize
+        // .authenticate()
+        // .then(()=>{
+        //     console.log("Authenticated");
+        //     dbContext.db.sequelize.sync();
+        // })
+        // .catch((err)=>{
+        //     fromServer.aws=function(){
+        //         return true
+        //     }
+        // })
+        // Archive=dbContext.db.Models[0];
+
+        console.log(req)
+
+       }
