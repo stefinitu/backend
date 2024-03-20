@@ -77,34 +77,34 @@ s3.upload(params, function (err, data) {
 
  ////VIDEO
 
- let storage = multer.diskStorage({
-    destination:(req, file, cb) =>{
-        cb(null, path.resolve('./uploads'))
-    },
-    filename:(req,file,cb)=>{
-        cb(null, "test"+genId+".mp4")
-    },
-    fileFilter:(req,file,cb) =>{
-        const ext =path.extname("test"+genId+".mp4");
-        if(ext!==".mp4"){
-            return cb(res.status(400).end("only mp4!"), false)
-        }
-        cb(null,true)
-    }
- })
+//  let storage = multer.diskStorage({
+//     destination:(req, file, cb) =>{
+//         cb(null, path.resolve('./uploads'))
+//     }
+//     // filename:(req,file,cb)=>{
+//     //     cb(null, "test"+genId+".mp4")
+//     // },
+//     // fileFilter:(req,file,cb) =>{
+//     //     const ext =path.extname("test"+genId+".mp4");
+//     //     if(ext!==".mp4"){
+//     //         return cb(res.status(400).end("only mp4!"), false)
+//     //     }
+//     //     cb(null,true)
+//     // }
+//  })
 
- const uploadV=multer({storage:storage, limits:{fieldSize:25*1024*1024}}).single("file");
- uploadV(req,res,(err)=>{
-    if(err){
-        return res.json({success:false, err});
-    }
-    return res.json({
-        success:true
-    })
- })
+//  const uploadV=multer({storage:storage, limits:{fieldSize:25*1024*1024}}).single("file");
+//  uploadV(req,res,(err)=>{
+//     if(err){
+//         return res.json({success:false, err});
+//     }
+//     return res.json({
+//         success:true
+//     })
+//  })
 
  const uploadFile2=(file,bucketName) => {
-    const fileContent = fs.readFileSync("../uploads/test"+genId+".mp4");
+    const fileContent = fs.createReadStream(req.file,'utf8');
     const params = {
         Bucket: bucketName,
         Key: file,
