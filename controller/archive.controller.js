@@ -77,8 +77,8 @@ s3.upload(params, function (err, data) {
 
 //     //////////////////////////////////////////////////////////////////////////
 
-
-    Archive.create({id:genId, room_no:req.body.reduxData.channelName, name:req.body.reduxData.uid, domain:"video", object_id:"file"+genId+".txt"})
+    constDataJSON = JSON.parse(req.body.reduxData)
+    Archive.create({id:genId, room_no:constDataJSON.channelName, name:constDataJSON.uid, domain:"video", object_id:"file"+genId+".txt"})
     .then((data) =>{
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
