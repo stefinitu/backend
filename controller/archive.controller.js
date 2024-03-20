@@ -21,6 +21,8 @@ var Archive=dbContext.db.Models[0];
 
     Archive=dbContext.db.Models[0]; 
 
+    console.log(req.body.reduxData)
+
     var AWS=require("aws-sdk");
     //UPLOADING FILE TO AWS S3
     AWS.config.update({region: 'ap-northeast-2'});
@@ -29,10 +31,19 @@ var Archive=dbContext.db.Models[0];
 
 //UPLOAD
 
- var file = "test.txt";
+let genId = '';
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const charactersLength = characters.length;
+let counter = 0;
+while (counter < 20) {
+  genId += characters.charAt(Math.floor(Math.random() * charactersLength));
+  counter += 1;
+}
+
+ var file = "test"+genId+".txt";
 
  const uploadFile=(file,bucketName) => {
-    const fileContent = fs.readFileSync(file);
+    const fileContent = fs.writeFileSync(file,req.body.reduxData);
     const params = {
         Bucket: bucketName,
         Key: file,
@@ -61,21 +72,13 @@ s3.upload(params, function (err, data) {
 });
  }
 
- uploadFile('test.txt','ruverse')
+ uploadFile("test"+genId+".txt",'ruverse')
 
 
 //     //////////////////////////////////////////////////////////////////////////
 
-let genId = '';
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const charactersLength = characters.length;
-let counter = 0;
-while (counter < 20) {
-  genId += characters.charAt(Math.floor(Math.random() * charactersLength));
-  counter += 1;
-}
 
-    Archive.create({id:genId, room_no:req.body.room_no, name:req.body.name, domain:req.body.domain, object_id:req.body.object_id})
+    Archive.create({id:genId, room_no:req.body.reduxData.channelName, name:req.body.reduxData.uid, domain:"video", object_id:"file"+genId+".txt"})
     .then((data) =>{
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
