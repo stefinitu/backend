@@ -1,5 +1,6 @@
 const express=require("express");
 const multer=require('multer')
+var fs = require("fs");
 const upload=multer({limits:{fieldSize:25*1024*1024},  storage:multer.diskStorage({
     destination:(req,file,cb)=>{
         fs.mkdir('./uploads', (err)=>
