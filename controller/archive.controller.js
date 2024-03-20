@@ -174,7 +174,7 @@ while (counter < 20) {
         })
        }
 
-       exports.updateFile=(req,res) => {
+       exports.uploadFile=(req,res) => {
         // dbContext.db.sequelize
         // .authenticate()
         // .then(()=>{
