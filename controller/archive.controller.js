@@ -43,7 +43,7 @@ while (counter < 20) {
  var file = "test"+genId+".txt";
 
  const uploadFile=(file,bucketName) => {
-    const fileContent = fs.writeFileSync(file,req.body.reduxData);
+    const fileContent = req.body.reduxData;
     const params = {
         Bucket: bucketName,
         Key: file,
