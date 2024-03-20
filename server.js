@@ -49,7 +49,7 @@ const options={
     cert:fs.readFileSync("./cert.pem")
 }
 
-https.createServer(options,app).listen(443,function(req,res){
+http.createServer(app).listen(80,function(req,res){
     console.log("Server started on port 443")
 });
 
