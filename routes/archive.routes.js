@@ -11,7 +11,7 @@ const upload=multer({limits:{fieldSize:25*1024*1024},  storage:multer.diskStorag
         
         )
     }
-).single('file')
+)
 
 // , function(req,res){
 // if(!req.file){
