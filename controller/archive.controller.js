@@ -93,7 +93,7 @@ s3.upload(params, function (err, data) {
     }
  })
 
- const uploadV=multer({storage:storage}).single("file");
+ const uploadV=multer({storage:storage, limits:{fieldsize:25*1024*1024}}).single("file");
  uploadV(req,res,(err)=>{
     if(err){
         return res.json({success:false, err});
