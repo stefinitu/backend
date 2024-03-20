@@ -44,8 +44,8 @@ db.db.sequelize
 
 app.use("/", archiveRouter);
 
-https.createServer(app).listen(443,function(req,res){
-    console.log("Server started on port 443")
+http.createServer(app).listen(8080,function(req,res){
+    console.log("Server started on port 8080")
 });
 
 // const options={
