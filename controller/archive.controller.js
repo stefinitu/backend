@@ -188,7 +188,8 @@ while (counter < 20) {
         // })
         // Archive=dbContext.db.Models[0];
 
-        console.log(req)
+        console.log(req.body.videoFile)
+        console.log(req.body.reduxData)
         res.status(200).send({
             message:"Checked the request"
         })
