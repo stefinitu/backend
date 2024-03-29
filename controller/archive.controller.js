@@ -76,34 +76,6 @@ s3.upload(params, function (err, data) {
 
  uploadFile("test"+genId+".txt",'ruverse')
 
- ////VIDEO
-
-//  let storage = multer.diskStorage({
-//     destination:(req, file, cb) =>{
-//         cb(null, path.resolve('./uploads'))
-//     }
-//     // filename:(req,file,cb)=>{
-//     //     cb(null, "test"+genId+".mp4")
-//     // },
-//     // fileFilter:(req,file,cb) =>{
-//     //     const ext =path.extname("test"+genId+".mp4");
-//     //     if(ext!==".mp4"){
-//     //         return cb(res.status(400).end("only mp4!"), false)
-//     //     }
-//     //     cb(null,true)
-//     // }
-//  })
-
-//  const uploadV=multer({storage:storage, limits:{fieldSize:25*1024*1024}}).single("file");
-//  uploadV(req,res,(err)=>{
-//     if(err){
-//         return res.json({success:false, err});
-//     }
-//     return res.json({
-//         success:true
-//     })
-//  })
-
  const uploadFile2=(file,bucketName) => {
     console.log(req.files)
     // const fileContent = fs.createReadStream(JSON.stringify(req.files[0].path).replace('"','').replace('"',''),'utf8');
@@ -231,22 +203,43 @@ s3.upload(params, function (err, data) {
         })
        }
 
-       exports.uploadFile=(req,res) => {
-        // dbContext.db.sequelize
-        // .authenticate()
-        // .then(()=>{
-        //     console.log("Authenticated");
-        //     dbContext.db.sequelize.sync();
-        // })
-        // .catch((err)=>{
-        //     fromServer.aws=function(){
-        //         return true
-        //     }
-        // })
-        // Archive=dbContext.db.Models[0];
+exports.charAnim=(req,res) => {
 
-        console.log(req.body.reduxData)
-        res.status(200).send({
-            message:"Checked the request"
-        })
+    AWS.config.update({
+    accessKeyId: process.env.AWS_ACC_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: 'ap-northeast-2'
+  });
+  
+  // Create a new Polly object
+  const polly = new AWS.Polly();
+  
+  // Function to generate speech audio using Amazon Polly
+  async function generateSpeech(text, outputFilePath) {
+    try {
+      const params = {
+        Text: text,
+        OutputFormat: 'mp3',
+        VoiceId: 'Joanna' // Specify the voice you want to use, e.g., Joanna, Matthew, etc.
+      };
+  
+      // Request speech synthesis
+      const data = await polly.synthesizeSpeech(params).promise();
+  
+      // Save audio data to file
+      fs.writeFileSync(outputFilePath, data.AudioStream);
+  
+      console.log(`Speech generated successfully and saved to: ${outputFilePath}`);
+    } catch (err) {
+      console.error('Error generating speech:', err);
+    }
+  }
+  
+  // Example usage
+  const text = 'Hello, this is a test.';
+  
+  const outputFilePath = 'output.mp3';
+  
+  generateSpeech(text, outputFilePath);
+  
        }
