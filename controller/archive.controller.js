@@ -204,7 +204,7 @@ s3.upload(params, function (err, data) {
        }
 
 exports.charAnim=(req,res) => {
-
+    var AWS=require("aws-sdk");
     AWS.config.update({
     accessKeyId: process.env.AWS_ACC_KEY,
     secretAccessKey: process.env.AWS_SECRET_KEY,

@@ -104,7 +104,6 @@ def create_anime_with_shape_keys():
         # Set the 'eye001.000' object as the active object
         bpy.context.view_layer.objects.active = teeth_object
 
-        # Switch to edit mode
         bpy.ops.object.mode_set(mode='EDIT')
 
         bpy.ops.mesh.select_all(action='DESELECT')
