@@ -102,7 +102,7 @@ var Archive=dbContext.db.Models[0];
 
 //     //////////////////////////////////////////////////////////////////////////
 
-    constDataJSON = JSON.parse(req.body.reduxData)
+    constDataJSON = JSON.parse(req.body)
     Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
     .then((data) =>{
         res.status(200).send(data)})
