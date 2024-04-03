@@ -241,5 +241,33 @@ exports.charAnim=(req,res) => {
   const outputFilePath = 'output.mp3';
   
   generateSpeech(text, outputFilePath);
+
+  const uploadFile=(file,bucketName) => {
+    console.log(req.files)
+    const fileContent=fs.readFileSync("./output.mp3")
+    const params = {
+        Bucket: bucketName,
+        Key: file,
+        Body: fileContent,
+    }
+
+// call S3 to retrieve upload file to specified bucket
+s3.upload(params, function (err, data) {
+  if (err) {
+    console.log("Error", err);
+    res.status(400).send({
+      message:"Cannot upload to S3"
+  })
+  }
+  if (data) {
+    console.log("Upload Success", data.Location);
+    res.status(200).send({
+      message:"Uploaded successfully!"
+  })
+  }
+});
+ }
+
+ uploadFile("output.mp3",'ruverse')
   
-       }
+  }

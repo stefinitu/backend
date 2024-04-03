@@ -119,8 +119,8 @@ def create_anime_with_shape_keys():
         # Select all mesh elements in the active object
         bpy.ops.mesh.select_all(action='SELECT')
 
-        # Apply random offset to selected vertices
-        bpy.ops.transform.vertex_random(offset=0.05)
+        # # Apply random offset to selected vertices
+        # bpy.ops.transform.vertex_random(offset=0.05)
 
         # Switch back to object mode
         bpy.ops.object.mode_set(mode='OBJECT')
