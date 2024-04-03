@@ -4,7 +4,6 @@ module.exports=(sequelize,Sequelize) => {
         {
             uid:{
                 type:Sequelize.STRING,
-                primaryKey:true,
                 onDelete:'CASCADE',
             },
             channelName:{
@@ -31,5 +30,5 @@ module.exports=(sequelize,Sequelize) => {
         }
     )
 
-sequelize.sync({alter:true, force:true});
+sequelize.sync({force:true});
 return [Archive];}
