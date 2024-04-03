@@ -100,7 +100,7 @@ var Archive=dbContext.db.Models[0];
 
 //     //////////////////////////////////////////////////////////////////////////
     console.log(req.body)
-    constDataJSON = JSON.parse(req.body)
+    constDataJSON = req.body
     Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
     .then((data) =>{
         res.status(200).send(data)})
