@@ -21,14 +21,8 @@ module.exports=(sequelize,Sequelize) => {
         },
         {
             tableName:"Archive",
-            indexes:[
-                {
-                    unique:true,
-                    fields:['loggerDataKey']
-                }
-            ]
         }
     )
 
-sequelize.sync({force:true});
+sequelize.sync({alter:true});
 return [Archive];}
