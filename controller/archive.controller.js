@@ -103,7 +103,7 @@ var Archive=dbContext.db.Models[0];
 //     //////////////////////////////////////////////////////////////////////////
 
     constDataJSON = JSON.parse(req.body.reduxData)
-    Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, name:constDataJSON.name, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
+    Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
     .then((data) =>{
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
