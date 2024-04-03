@@ -2,12 +2,12 @@ module.exports=(sequelize,Sequelize) => {
     const Archive=sequelize.define(
         "Archive",
         {
-            id:{
+            uid:{
                 type:Sequelize.STRING,
                 primaryKey:true,
                 onDelete:'CASCADE',
             },
-            room_no:{
+            channelName:{
                 type:Sequelize.STRING,
                 allowNull:false,
             },
@@ -15,11 +15,11 @@ module.exports=(sequelize,Sequelize) => {
                 type:Sequelize.STRING,
                 allowNull:false,
             },
-            domain:{
+            loggerDataKey:{
                 type:Sequelize.STRING,
                 allowNull:false,
             },
-            object_id:{
+            videoKey:{
                 type:Sequelize.STRING,
                 allowNull:false,
             }

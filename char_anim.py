@@ -101,8 +101,24 @@ def create_anime_with_shape_keys():
     teeth_object = bpy.data.objects.get('eye001.000')
 
     if teeth_object:
-        # Set the 'eye001.000' object as the active object
         bpy.context.view_layer.objects.active = teeth_object
+
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        mat = bpy.data.materials.new(name="Material")
+        mat.diffuse_color = (1.0, 0.0, 0.0, 1.0) 
+
+    # Assign it to object
+        if bpy.context.object.data.materials:
+    # assign to 1st material slot
+            bpy.context.object.data.materials[0] = mat
+        else:
+            bpy.context.object.data.materials.append(mat)
+
+        for area in bpy.context.screen.areas:
+            if area.type == 'VIEW_3D':
+                space = area.spaces.active
+                space.shading.type = 'MATERIAL'
 
         bpy.ops.object.mode_set(mode='EDIT')
 
@@ -113,21 +129,18 @@ def create_anime_with_shape_keys():
         # Set the context to the object mode
         bpy.context.view_layer.objects.active = bpy.data.objects['eye001.000']
 
-        # Switch to edit mode (assuming you want to select mesh elements)
-        bpy.ops.object.mode_set(mode='EDIT')
-
         # Select all mesh elements in the active object
-        bpy.ops.mesh.select_all(action='SELECT')
+        #bpy.ops.mesh.select_all(action='SELECT')
 
         # # Apply random offset to selected vertices
-        # bpy.ops.transform.vertex_random(offset=0.05)
+        bpy.ops.transform.vertex_random(offset=0.05)
 
-        # Switch back to object mode
         bpy.ops.object.mode_set(mode='OBJECT')
 
         # Add mouth shape key
         bpy.ops.object.shape_key_add(from_mix=False)
         bpy.context.object.active_shape_key.name = "Mouth"
+
 
     return teeth_object
 

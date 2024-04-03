@@ -25,32 +25,32 @@ var Archive=dbContext.db.Models[0];
 
     console.log(req.body.reduxData)
 
-    var AWS=require("aws-sdk");
-    //UPLOADING FILE TO AWS S3
-    AWS.config.update({region: 'ap-northeast-2'});
-    s3 = new AWS.S3({apiVersion:"latest", accessKeyId:process.env.AWS_ACC_KEY, accessSecretKey:process.env.AWS_SECRET_KEY});
+    // var AWS=require("aws-sdk");
+    // //UPLOADING FILE TO AWS S3
+    // AWS.config.update({region: 'ap-northeast-2'});
+    // s3 = new AWS.S3({apiVersion:"latest", accessKeyId:process.env.AWS_ACC_KEY, accessSecretKey:process.env.AWS_SECRET_KEY});
 
 
 //UPLOAD
 
-let genId = '';
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const charactersLength = characters.length;
-let counter = 0;
-while (counter < 20) {
-  genId += characters.charAt(Math.floor(Math.random() * charactersLength));
-  counter += 1;
-}
+// let genId = '';
+// const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+// const charactersLength = characters.length;
+// let counter = 0;
+// while (counter < 20) {
+//   genId += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   counter += 1;
+// }
 
- var file = "test"+genId+".txt";
+//  var file = "test"+genId+".txt";
 
- const uploadFile=(file,bucketName) => {
-    const fileContent = req.body.reduxData;
-    const params = {
-        Bucket: bucketName,
-        Key: file,
-        Body: fileContent,
-    }
+//  const uploadFile=(file,bucketName) => {
+//     const fileContent = req.body.reduxData;
+//     const params = {
+//         Bucket: bucketName,
+//         Key: file,
+//         Body: fileContent,
+//     }
 
 
 // Configure the file stream and obtain the upload parameters LATER
@@ -64,47 +64,46 @@ while (counter < 20) {
 // uploadParams.Key = path.basename(file);
 
 // call S3 to retrieve upload file to specified bucket
-s3.upload(params, function (err, data) {
-  if (err) {
-    console.log("Error", err);
-  }
-  if (data) {
-    console.log("Upload Success", data.Location);
-  }
-});
- }
+// s3.upload(params, function (err, data) {
+//   if (err) {
+//     console.log("Error", err);
+//   }
+//   if (data) {
+//     console.log("Upload Success", data.Location);
+//   }
+// });
+//  }
 
- uploadFile("test"+genId+".txt",'ruverse')
+//  uploadFile("test"+genId+".txt",'ruverse')
 
- const uploadFile2=(file,bucketName) => {
-    console.log(req.files)
-    // const fileContent = fs.createReadStream(JSON.stringify(req.files[0].path).replace('"','').replace('"',''),'utf8');
-    // const fileContent=ffmpeg.ffprobe(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
-    const fileContent=fs.readFileSync(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
-    const params = {
-        Bucket: bucketName,
-        Key: file,
-        Body: fileContent,
-    }
+//  const uploadFile2=(file,bucketName) => {
+//     console.log(req.files)
+//     // const fileContent = fs.createReadStream(JSON.stringify(req.files[0].path).replace('"','').replace('"',''),'utf8');
+//     // const fileContent=ffmpeg.ffprobe(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
+//     const fileContent=fs.readFileSync(JSON.stringify(req.files[0].path).replace('"','').replace('"',''))
+//     const params = {
+//         Bucket: bucketName,
+//         Key: file,
+//         Body: fileContent,
+//     }
 
 // call S3 to retrieve upload file to specified bucket
-s3.upload(params, function (err, data) {
-  if (err) {
-    console.log("Error", err);
-  }
-  if (data) {
-    console.log("Upload Success", data.Location);
-  }
-});
- }
+// s3.upload(params, function (err, data) {
+//   if (err) {
+//     console.log("Error", err);
+//   }
+//   if (data) {
+//     console.log("Upload Success", data.Location);
+//   }
+// });
 
- uploadFile2("test"+genId+".mp4",'ruverse')
+//  uploadFile2("test"+genId+".mp4",'ruverse')
 
 
 //     //////////////////////////////////////////////////////////////////////////
 
     constDataJSON = JSON.parse(req.body.reduxData)
-    Archive.create({id:genId, room_no:constDataJSON.channelName, name:constDataJSON.uid, domain:"video", object_id:"file"+genId+".txt"})
+    Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, name:constDataJSON.name, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
     .then((data) =>{
         res.status(200).send(data)})
         .catch((err)=>res.status(400).send(err));
@@ -243,7 +242,6 @@ exports.charAnim=(req,res) => {
   generateSpeech(text, outputFilePath);
 
   const uploadFile=(file,bucketName) => {
-    console.log(req.files)
     const fileContent=fs.readFileSync("./output.mp3")
     const params = {
         Bucket: bucketName,
@@ -269,5 +267,4 @@ s3.upload(params, function (err, data) {
  }
 
  uploadFile("output.mp3",'ruverse')
-  
-  }
+}
