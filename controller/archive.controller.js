@@ -23,8 +23,6 @@ var Archive=dbContext.db.Models[0];
 
     Archive=dbContext.db.Models[0]; 
 
-    console.log(req.body.reduxData)
-
     // var AWS=require("aws-sdk");
     // //UPLOADING FILE TO AWS S3
     // AWS.config.update({region: 'ap-northeast-2'});
@@ -103,6 +101,7 @@ var Archive=dbContext.db.Models[0];
 //     //////////////////////////////////////////////////////////////////////////
 
     constDataJSON = JSON.parse(req.body)
+    console.log(constDataJSON)
     Archive.create({uid:constDataJSON.uid, channelName:constDataJSON.channelName, loggerDataKey:constDataJSON.loggerDataKey, videoKey: constDataJSON.videoKey})
     .then((data) =>{
         res.status(200).send(data)})
