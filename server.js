@@ -39,7 +39,7 @@ db.db.sequelize
 .authenticate()
 .then(()=>{
     console.log("Authenticated");
-    db.db.sequelize.sync();
+    db.db.sequelize.sync({force:true});
 })
 
 app.use("/", archiveRouter);
