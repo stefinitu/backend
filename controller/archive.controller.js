@@ -247,6 +247,9 @@ exports.charAnim=(req,res) => {
         Body: fileContent,
     }
 
+AWS.config.update({region: 'ap-northeast-2'});
+s3 = new AWS.S3({apiVersion:"latest", accessKeyId:process.env.AWS_ACC_KEY, accessSecretKey:process.env.AWS_SECRET_KEY});
+
 // call S3 to retrieve upload file to specified bucket
 s3.upload(params, function (err, data) {
   if (err) {
