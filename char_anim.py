@@ -52,6 +52,26 @@ def create_sphere_with_shape_keys():
 
     return sphere
 
+def paint_map(object, color):
+    mesh = object.data
+    
+    # Ensure the object has vertex colors
+    if not mesh.vertex_colors:
+        mesh.vertex_colors.new()
+    
+    color_layer = mesh.vertex_colors.active.data
+    
+    # Check the number of vertices in the mesh
+    num_vertices = len(mesh.vertices)
+    
+    # Iterate through each vertex and assign the color
+    for vertex_idx in range(num_vertices):
+        # Ensure the vertex index is within the range of the color layer
+        if vertex_idx < len(color_layer):
+            color_layer[vertex_idx].color = color
+
+            
+
 def create_anime_with_shape_keys():
     bpy.ops.object.select_all(action='DESELECT')
     bpy.data.objects['Cube'].select_set(True)
@@ -63,7 +83,11 @@ def create_anime_with_shape_keys():
 
 # Get a list of all imported objects
     cam_objects = [obj for obj in bpy.data.objects if obj.type == 'CAMERA']
-    imported_objects = [obj for obj in bpy.data.objects if obj.type == 'MESH']
+    imported_objects = [obj for obj in bpy.data.objects if obj.type == 'MESH' and obj!=bpy.data.objects['eye001.000'] and obj!=bpy.data.objects['eye001.001'] and obj!=bpy.data.objects['eye001.001_Sphere.001'] and obj!=bpy.data.objects['eye001.001_Sphere.005'] and obj!=bpy.data.objects['eye001.000_Sphere.006'] and obj!=bpy.data.objects['eye001.000_Sphere.001'] and obj!=bpy.data.objects['jacket']]
+    print()
+    imported_objects_anim = [obj for obj in bpy.data.objects if obj.type == 'MESH' and (obj==bpy.data.objects['eye001.000'] or obj==bpy.data.objects['eye001.001'] or  obj==bpy.data.objects['eye001.001_Sphere.001'] or obj==bpy.data.objects['eye001.001_Sphere.005'] or obj==bpy.data.objects['eye001.000_Sphere.006'] or obj==bpy.data.objects['eye001.000_Sphere.001'])]
+    imported_objects_lips = [obj for obj in bpy.data.objects if obj.type == 'MESH' and (obj==bpy.data.objects['tongue_Cube.001'] or obj==bpy.data.objects['tongue_Cube'] or obj==bpy.data.objects['tongue'] or obj==bpy.data.objects['teeth'] or obj ==bpy.data.objects['teeth_Cube.001'] or obj== bpy.data.objects['teeth_Cube.002'])]
+    imported_objects_jacket = [obj for obj in bpy.data.objects if obj.type == 'MESH' and (obj==bpy.data.objects['jacket_Cylinder.014'] or obj ==bpy.data.objects['jacket_Cylinder.001'])]
 
     print(cam_objects[0].location)
     print(cam_objects[0].rotation_euler)
@@ -78,62 +102,122 @@ def create_anime_with_shape_keys():
         obj.keyframe_insert(data_path="location", index=-1, frame=1)  # Insert a keyframe for the location
         # obj.keyframe_insert(data_path="rotation_euler", index=-1, frame=1) 
      
-
+    for imp in imported_objects:  #SKIN
 # Set the active object to the last imported object
-    bpy.context.view_layer.objects.active = bpy.data.objects['eye001.000']
+        bpy.context.view_layer.objects.active = imp
+
+        # Switch to edit mode to select mouth vertices
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        teeth_object = imp
+
+        if teeth_object:
+            mat = bpy.data.materials.new(name="Material")
+            # Assign it to object
+            if bpy.context.object.data.materials:
+        # assign to 1st material slot
+                bpy.context.object.data.materials[0] = mat
+            else:
+                bpy.context.object.data.materials.append(mat)
+
+            mat.diffuse_color =(255.0 / 255.0, 206.0 / 255.0, 180.0 / 255.0, 1.0)
+
+            paint_map(teeth_object, (255.0 / 255.0, 206.0 / 255.0, 180.0 / 255.0, 1.0))
+
+    for imp in imported_objects_anim:  #EYES
+# Set the active object to the last imported object
+        bpy.context.view_layer.objects.active = imp
+
+        # Switch to edit mode to select mouth vertices
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        teeth_object = imp
+
+        if teeth_object:
+            mat = bpy.data.materials.new(name="Material")
+            # Assign it to object
+            if bpy.context.object.data.materials:
+        # assign to 1st material slot
+                bpy.context.object.data.materials[0] = mat
+            else:
+                bpy.context.object.data.materials.append(mat)
+
+            mat.diffuse_color =(11.0 / 255.0, 156.0 / 255.0, 49.0 / 255.0, 0.6)
+
+            paint_map(teeth_object, mat.diffuse_color)
+
+    for imp in imported_objects_lips:  #LIPS
+        bpy.context.view_layer.objects.active = imp
+
+        # Switch to edit mode to select mouth vertices
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        teeth_object = imp
+
+        if teeth_object:
+            mat = bpy.data.materials.new(name="Material")
+            # Assign it to object
+            if bpy.context.object.data.materials:
+        # assign to 1st material slot
+                bpy.context.object.data.materials[0] = mat
+            else:
+                bpy.context.object.data.materials.append(mat)
+
+            mat.diffuse_color =(255.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 1.0)
+
+            paint_map(teeth_object, mat.diffuse_color)
 
 
-    # Add shape keys for different lip positions
-    bpy.ops.object.shape_key_add(from_mix=False)
-    bpy.context.object.active_shape_key.name = "Neutral"
-    bpy.ops.object.shape_key_add(from_mix=False)
-    bpy.context.object.active_shape_key.name = "Closed"
-    bpy.ops.object.shape_key_add(from_mix=False)
-    bpy.context.object.active_shape_key.name = "Open"
+    for imp in imported_objects_jacket:  #JACKET
+        bpy.context.view_layer.objects.active = imp
 
-    # Adjust shape key positions as needed
-    bpy.data.objects['eye001.000'].data.shape_keys.key_blocks["Closed"].value = 0.02
-    bpy.data.objects['eye001.000'].data.shape_keys.key_blocks["Open"].value = 0.07
+        # Switch to edit mode to select mouth vertices
+        bpy.ops.object.mode_set(mode='EDIT')
 
-    # Switch to edit mode to select mouth vertices
-    bpy.ops.object.mode_set(mode='EDIT')
+        teeth_object = imp
 
-    teeth_object = bpy.data.objects.get('eye001.000')
+        if teeth_object:
+            mat = bpy.data.materials.new(name="Material")
+            # Assign it to object
+            if bpy.context.object.data.materials:
+        # assign to 1st material slot
+                bpy.context.object.data.materials[0] = mat
+            else:
+                bpy.context.object.data.materials.append(mat)
 
-    if teeth_object:
-        bpy.context.view_layer.objects.active = teeth_object
+            mat.diffuse_color =(0.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0, 1.0)
 
+            paint_map(teeth_object, mat.diffuse_color)
+
+    for imp in imported_objects_anim:
+        bpy.context.view_layer.objects.active = imp
         bpy.ops.object.mode_set(mode='OBJECT')
+        # Add shape keys for different lip positions
+        bpy.ops.object.shape_key_add(from_mix=False)
+        bpy.context.object.active_shape_key.name = "Neutral"
+        bpy.ops.object.shape_key_add(from_mix=False)
+        bpy.context.object.active_shape_key.name = "Closed"
+        bpy.ops.object.shape_key_add(from_mix=False)
+        bpy.context.object.active_shape_key.name = "Open"
 
-        mat = bpy.data.materials.new(name="Material")
-        mat.diffuse_color = (1.0, 0.0, 0.0, 1.0) 
-
-    # Assign it to object
-        if bpy.context.object.data.materials:
-    # assign to 1st material slot
-            bpy.context.object.data.materials[0] = mat
-        else:
-            bpy.context.object.data.materials.append(mat)
-
-        for area in bpy.context.screen.areas:
-            if area.type == 'VIEW_3D':
-                space = area.spaces.active
-                space.shading.type = 'MATERIAL'
+        # Adjust shape key positions as needed
+        imp.data.shape_keys.key_blocks["Closed"].value = 0
+        imp.data.shape_keys.key_blocks["Open"].value = 1
 
         bpy.ops.object.mode_set(mode='EDIT')
 
         bpy.ops.mesh.select_all(action='DESELECT')
 
-        bpy.data.objects['eye001.000'].select_set(True)
+        imp.select_set(True)
 
         # Set the context to the object mode
-        bpy.context.view_layer.objects.active = bpy.data.objects['eye001.000']
+        bpy.context.view_layer.objects.active = imp
 
         # Select all mesh elements in the active object
         #bpy.ops.mesh.select_all(action='SELECT')
 
         # # Apply random offset to selected vertices
-        bpy.ops.transform.vertex_random(offset=0.05)
+        bpy.ops.transform.vertex_random(offset=2.5)
 
         bpy.ops.object.mode_set(mode='OBJECT')
 
@@ -143,6 +227,7 @@ def create_anime_with_shape_keys():
 
 
     return teeth_object
+
 
 def resample_audio(audio_data, original_framerate, target_framerate):
     # Calculate the resampling factor
@@ -246,6 +331,49 @@ def animate_lip_sync(audio_file,scaling_factor=5000):
         bpy.data.objects['eye001.000'].data.shape_keys.key_blocks["Mouth"].value = scaled_amplitude
         bpy.data.objects['eye001.000'].data.shape_keys.key_blocks["Mouth"].keyframe_insert(data_path="value", frame=frame_num)
 
+#EYE001
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Closed"].value = scaled_amplitude
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Open"].value = 1.0 - scaled_amplitude
+
+        # Adjust mouth shape key
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Closed"].keyframe_insert(data_path="value", frame=frame_num)
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Open"].keyframe_insert(data_path="value", frame=frame_num)
+
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Mouth"].value = scaled_amplitude
+        bpy.data.objects['eye001.001'].data.shape_keys.key_blocks["Mouth"].keyframe_insert(data_path="value", frame=frame_num)
+
+#EYE SPHERE 1
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Closed"].value = scaled_amplitude
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Open"].value = 1.0 - scaled_amplitude
+
+        # Adjust mouth shape key
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Closed"].keyframe_insert(data_path="value", frame=frame_num)
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Open"].keyframe_insert(data_path="value", frame=frame_num)
+
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Mouth"].value = scaled_amplitude
+        bpy.data.objects['eye001.001_Sphere.001'].data.shape_keys.key_blocks["Mouth"].keyframe_insert(data_path="value", frame=frame_num)
+
+#EYE SPHERE 2
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Closed"].value = scaled_amplitude
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Open"].value = 1.0 - scaled_amplitude
+
+        # Adjust mouth shape key
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Closed"].keyframe_insert(data_path="value", frame=frame_num)
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Open"].keyframe_insert(data_path="value", frame=frame_num)
+
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Mouth"].value = scaled_amplitude
+        bpy.data.objects['eye001.001_Sphere.005'].data.shape_keys.key_blocks["Mouth"].keyframe_insert(data_path="value", frame=frame_num)
+
+#EYE SPHERE 3
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Closed"].value = scaled_amplitude
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Open"].value = 1.0 - scaled_amplitude
+
+        # Adjust mouth shape key
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Closed"].keyframe_insert(data_path="value", frame=frame_num)
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Open"].keyframe_insert(data_path="value", frame=frame_num)
+
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Mouth"].value = scaled_amplitude
+        bpy.data.objects['eye001.000_Sphere.006'].data.shape_keys.key_blocks["Mouth"].keyframe_insert(data_path="value", frame=frame_num)
 
 # Function to render animation as a video file
 def render_video(output_path):
