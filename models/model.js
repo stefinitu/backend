@@ -17,8 +17,12 @@ module.exports=(sequelize,Sequelize) => {
             videoKey:{
                 type:Sequelize.STRING,
                 allowNull:false,
-            }
-        },
+
+            },
+		screenKey:{
+		type:Sequelize.STRING,
+		allowNull:true,
+	    }},
         {
             tableName:"Archive",
         }
